@@ -58,7 +58,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                                 @if($appointment->status === 'scheduled')
-                                    <a href="{{ route('doctor.reports.create', ['patient' => $appointment->patient_id, 'appointment_id' => $appointment->id]) }}" class="text-blue-600 hover:text-blue-900">Terminer & Rapport</a>
+                                    @if($appointment->date <= date('Y-m-d'))
+                                        <a href="{{ route('doctor.reports.create', ['patient' => $appointment->patient_id, 'appointment_id' => $appointment->id]) }}" class="text-blue-600 hover:text-blue-900">Terminer & Rapport</a>
+                                    @else
+                                        <span class="text-gray-400 cursor-not-allowed" title="Disponible uniquement le jour du rendez-vous">Terminer & Rapport</span>
+                                    @endif
                                     
                                     <button onclick="openReproModal({{ $appointment->id }}, '{{ $appointment->patient->user->name }}')" class="text-orange-600 hover:text-orange-900">Reprogrammer</button>
 

@@ -6,83 +6,66 @@ TBIB.ai est une plateforme de santé moderne qui révolutionne le parcours de so
 
 ## ✨ Fonctionnalités Clés
 
-### 👤 Pour les Mrivs (Patients)
-- **Réservation Intelligente** : Trouvez un Tbib par spécialité ou département et réservez en 3 clics.
-- **Assistant IA 2.0** : Une interface de chat intelligente (NLP) pour analyser vos symptômes et vous orienter.
-- **Dossier Médical Numérique** : Accédez à vos rapports, diagnostics et prescriptions en un seul endroit.
-- **Avis Vérifiés** : Partagez votre expérience pour aider la communauté.
+### 🩺 Pour les Tbibs (Médecins) — **Assistant IA Professionnel**
+- **Secrétaire IA Intelligente** : Un assistant de productivité dédié qui connaît votre agenda et vos patients.
+- **Gestion d'Agenda** : Visualisez instantanément vos consultations du jour et de la semaine.
+- **Accès Rapide aux Dossiers** : Récupérez l'historique d'un patient et ses derniers diagnostics via l'IA.
+- **Aide à la Rédaction** : Générez des brouillons de rapports médicaux structurés à partir de vos notes.
+- **Interface Clinique** : Une barre latérale professionnelle intégrée pour ne jamais quitter votre dashboard.
 
-### 🩺 Pour les Tbibs (Médecins)
-- **Gestion d'Agenda** : Visualisez vos consultations du jour et gérez vos disponibilités.
-- **Suivi des Mrivs** : Accès rapide aux antécédents et dossiers médicaux.
-- **Rapports Digitaux** : Créez des comptes-rendus de consultation structurés.
-- **Reprogrammation Fluide** : Suggérez de nouveaux horaires en cas d'imprévu.
+### 👤 Pour les Mrivs (Patients) — **Compagnon Santé**
+- **Réservation Intelligente** : Trouvez un Tbib par spécialité ou département et réservez via l'assistant IA.
+- **Analyse de Symptômes Guidée** : Un flux interactif pour décrire vos maux et recevoir une orientation vers le bon spécialiste.
+- **Visualisation de RDV** : Cartes interactives pour confirmer vos rendez-vous et consulter votre liste de soins.
+- **Dossier Médical Numérique** : Accédez à vos rapports, diagnostics et prescriptions en un seul endroit.
 
 ### 🛡️ Administration
-- **Modération** : Validation des nouveaux Tbibs et gestion des avis.
-- **Audit Logs** : Suivi complet des activités pour une sécurité maximale.
+- **Gestion des Départements** : CRUD complet pour organiser l'établissement par services médicaux.
+- **Journal d'Audit Avancé** : Filtrage des logs par utilisateur pour une traçabilité totale.
+- **Modération & Validation** : Validation des comptes praticiens et gestion des avis communautaires.
 
-## 🚀 Technologies Utilisées
+## 🚀 Stack Technique
 
-- **Frontend** : Laravel Blade, Tailwind CSS (Design Moderne & Responsive)
+- **Frontend** : Laravel Blade, Tailwind CSS (Design Moderne & Professionnel)
 - **Backend** : Laravel 12.x (PHP 8.2+)
-- **IA Service** : Python (FastAPI / Uvicorn) pour le traitement NLP
-- **Base de données** : SQLite (par défaut) / MySQL
-- **Asset Bundling** : Vite 6.x
+- **Service IA** : Python (FastAPI) + Ollama (LLaMA 3.1 8B)
+- **Traitement NLP** : Extraction d'intentions, post-traitement Regex et formatage Python-natif pour la fiabilité.
+- **Base de données** : SQLite / MySQL
+- **Bundling** : Vite 6.x
 
-## 🛠️ Installation
+## 🛠️ Installation & Configuration
 
-### Prérequis
-- PHP 8.2+ & Composer
-- Node.js & NPM
-- Python 3.10+ (pour le service IA)
+### 1. Cloner le Projet
+```bash
+git clone https://github.com/AyhamKsouri/TBIB.ai.git
+cd TBIB.ai
+```
 
-### Étapes
+### 2. Service IA (Python + Ollama)
+Assurez-vous d'avoir [Ollama](https://ollama.com/) installé et le modèle LLaMA 3.1 opérationnel.
+```bash
+cd ai-service
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python main.py
+```
 
-1. **Cloner le projet**
-   ```bash
-   git clone https://github.com/AyhamKsouri/TBIB.ai.git
-   cd TBIB.ai
-   ```
+### 3. Backend (Laravel)
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+npm install
+npm run dev
+```
 
-2. **Configuration du Backend (Laravel)**
-   ```bash
-   cd backend
-   composer install
-   cp .env.example .env
-   php artisan key:generate
-   php artisan migrate --seed
-   npm install
-   npm run build
-   ```
-
-3. **Configuration du Service IA (Python)**
-   ```bash
-   cd ../ai-service
-   python -m venv venv
-   source venv/Scripts/activate  # Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
-
-## 🏃 Lancement
-
-1. **Démarrer le backend**
-   ```bash
-   cd backend
-   php artisan serve
-   ```
-
-2. **Démarrer le service IA**
-   ```bash
-   cd ai-service
-   uvicorn main:app --reload --port 8001
-   ```
-
-3. **Accès**
-   Ouvrez votre navigateur sur `http://localhost:8000`
-
-## 🎨 Design & UX
-L'interface a été conçue pour être **claire, moderne et apaisante**, utilisant une palette de bleus médicaux et de slates élégants. L'expérience utilisateur (UX) est optimisée pour la rapidité de prise en charge et la clarté des informations de santé.
+## 🎨 Philosophie du Design
+L'interface de TBIB.ai est scindée en deux expériences distinctes :
+- **Patient** : Chaleureuse, rassurante et simplifiée pour l'orientation.
+- **Docteur** : Clinique, efficace et axée sur la productivité (outils de rédaction, gestion de données).
 
 ---
-Développé avec ❤️ pour une meilleure santé.
+Développé par [Ayham Ksouri](https://github.com/AyhamKsouri) • Excellence en santé assistée par IA.

@@ -50,7 +50,9 @@
                         <a href="{{ route('doctor.reports.create', $patient->id) }}" class="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
                             Nouveau Rapport
                         </a>
-                        <!-- Historique des rapports pour ce patient spécifique pourrait être ajouté ici -->
+                        <a href="{{ route('doctor.patients.history', $patient->id) }}" class="block w-full text-center bg-white border border-slate-200 text-slate-600 py-2 rounded hover:bg-slate-50 transition">
+                            Voir Historique ({{ $patient->reports->count() }})
+                        </a>
                     </div>
                 </div>
             @empty

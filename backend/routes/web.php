@@ -45,6 +45,8 @@ Route::middleware(['auth', 'account_status'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::post('/ai/chat', [\App\Http\Controllers\AIChatController::class, 'chat'])->name('ai.chat');
+
     // Patient Routes
     Route::middleware(['role:patient'])->group(function () {
         Route::get('/patient/appointments/create', [AppointmentController::class, 'create'])->name('patient.appointments.create');
@@ -66,6 +68,7 @@ Route::middleware(['auth', 'account_status'])->group(function () {
         Route::patch('/doctor/appointments/{appointment}', [AppointmentController::class, 'update'])->name('doctor.appointments.update');
         Route::post('/doctor/appointments/{appointment}/suggest-timing', [AppointmentController::class, 'suggestNewTiming'])->name('doctor.appointments.suggest_timing');
         Route::get('/doctor/patients', [DoctorController::class, 'patientsWeb'])->name('doctor.patients.index');
+        Route::get('/doctor/patients/{patient}/history', [DoctorController::class, 'patientHistory'])->name('doctor.patients.history');
         Route::get('/doctor/reports/create/{patient}', [ReportController::class, 'create'])->name('doctor.reports.create');
         Route::post('/doctor/reports', [ReportController::class, 'storeWeb'])->name('doctor.reports.store');
         Route::get('/doctor/profile', [DoctorController::class, 'profile'])->name('doctor.profile');
@@ -86,6 +89,16 @@ Route::middleware(['auth', 'account_status'])->group(function () {
         Route::post('/admin/users/{user}/toggle', [AdminController::class, 'toggleUserStatus'])->name('admin.users.toggle');
         Route::post('/admin/doctors/{doctor}/validate', [AdminController::class, 'validateDoctor'])->name('admin.doctors.validate');
         Route::delete('/admin/feedbacks/{feedback}', [AdminController::class, 'deleteFeedback'])->name('admin.feedbacks.delete');
+
+        // Departments CRUD
+        Route::resource('/admin/departments', \App\Http\Controllers\DepartmentController::class)->names([
+            'index' => 'admin.departments.index',
+            'create' => 'admin.departments.create',
+            'store' => 'admin.departments.store',
+            'edit' => 'admin.departments.edit',
+            'update' => 'admin.departments.update',
+            'destroy' => 'admin.departments.destroy',
+        ]);
     });
 
     Route::post('/logout', function (Request $request) {

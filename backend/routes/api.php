@@ -7,6 +7,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AIChatController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -36,4 +37,5 @@ Route::middleware('auth:sanctum')->group(function () {
     // AI routes
     Route::post('/ai/analyze-symptoms', [AIController::class, 'analyzeSymptoms']);
     Route::post('/ai/process-appointment', [AIController::class, 'processAppointment']);
+    Route::post('/ai/chat', [AIChatController::class, 'chat']);
 });

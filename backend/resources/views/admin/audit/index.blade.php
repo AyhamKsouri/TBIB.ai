@@ -3,7 +3,23 @@
 @section('content')
 <div class="max-w-7xl mx-auto">
     <div class="bg-white rounded-lg shadow-md p-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Journal d'Audit (Audit Logs)</h2>
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Journal d'Audit (Audit Logs)</h2>
+            
+            <form action="{{ route('admin.audit.index') }}" method="GET" class="flex items-center space-x-4">
+                <select name="user_id" onchange="this.form.submit()" class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                    <option value="">Tous les utilisateurs</option>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }} ({{ $user->role }})
+                        </option>
+                    @endforeach
+                </select>
+                @if(request('user_id'))
+                    <a href="{{ route('admin.audit.index') }}" class="text-red-600 hover:underline text-sm font-bold">Réinitialiser</a>
+                @endif
+            </form>
+        </div>
 
         <div class="overflow-x-auto">
             <table class="min-w-full table-auto">

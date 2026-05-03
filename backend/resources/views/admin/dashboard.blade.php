@@ -54,13 +54,13 @@
                     <span class="font-medium">Gérer les Mrivs</span>
                     <i class="fas fa-chevron-right text-gray-400"></i>
                 </a>
+                <a href="{{ route('admin.departments.index') }}" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                    <span class="font-medium">Gérer les Départements</span>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </a>
                 <a href="{{ route('admin.feedbacks.index') }}" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
                     <span class="font-medium">Modérer les Avis</span>
                     <i class="fas fa-chevron-right text-gray-400"></i>
-                </a>
-                <a href="#" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition opacity-50 cursor-not-allowed">
-                    <span class="font-medium">Départements (Bientôt)</span>
-                    <i class="fas fa-lock text-gray-400"></i>
                 </a>
             </div>
         </div>

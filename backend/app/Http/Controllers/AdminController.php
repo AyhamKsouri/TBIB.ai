@@ -37,10 +37,18 @@ class AdminController extends Controller
         return view('admin.patients.index', compact('patients'));
     }
 
-    public function auditLogs()
+    public function auditLogs(Request $request)
     {
-        $logs = AuditLog::with('user')->orderBy('timestamp', 'desc')->paginate(20);
-        return view('admin.audit.index', compact('logs'));
+        $query = AuditLog::with('user');
+
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        $logs = $query->orderBy('timestamp', 'desc')->paginate(20)->withQueryString();
+        $users = User::orderBy('name')->get();
+
+        return view('admin.audit.index', compact('logs', 'users'));
     }
 
     public function toggleUserStatus(User $user)

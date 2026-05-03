@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected $fillable = ['doctor_id', 'patient_id', 'diagnosis', 'prescription', 'notes'];
+    protected $fillable = ['doctor_id', 'patient_id', 'diagnosis', 'prescription', 'notes', 'ai_summary'];
 
     public function doctor()
     {

@@ -83,6 +83,9 @@
         @if(Auth::user()->isPatient())
             @include('partials.ai-chat')
         @endif
+        @if(Auth::user()->isDoctor())
+            @include('partials.doctor-ai-chat')
+        @endif
     @endauth
 </body>
 </html>

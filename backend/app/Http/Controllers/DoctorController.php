@@ -74,9 +74,36 @@ class DoctorController extends Controller
         // Get unique patients who have appointments with this doctor
         $patients = \App\Models\Patient::whereHas('appointments', function ($query) use ($user) {
             $query->where('doctor_id', $user->doctor->id);
-        })->with('user')->get();
+        })->with(['user', 'reports' => function($q) use ($user) {
+            $q->where('doctor_id', $user->doctor->id)->latest();
+        }])->get();
 
         return view('doctor.patients.index', compact('patients'));
+    }
+
+    public function patientHistory(\App\Models\Patient $patient)
+    {
+        $user = Auth::user();
+        if (!$user->isDoctor()) {
+            return redirect('/dashboard');
+        }
+
+        // Ensure this doctor has at least one appointment with this patient
+        $hasAccess = \App\Models\Appointment::where('doctor_id', $user->doctor->id)
+            ->where('patient_id', $patient->id)
+            ->exists();
+
+        if (!$hasAccess) {
+            return redirect()->route('doctor.patients.index')->with('error', 'Accès non autorisé.');
+        }
+
+        // Get all reports for this patient from this doctor, ordered by session
+        $reports = \App\Models\Report::where('patient_id', $patient->id)
+            ->where('doctor_id', $user->doctor->id)
+            ->latest()
+            ->get();
+
+        return view('doctor.patients.history', compact('patient', 'reports'));
     }
 
     public function profile()

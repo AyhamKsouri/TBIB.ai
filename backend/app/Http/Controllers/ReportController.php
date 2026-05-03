@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
+    public function __construct(private \App\Services\AIService $ai) {}
+
     public function indexWeb()
     {
         $user = Auth::user();
@@ -32,6 +34,14 @@ class ReportController extends Controller
     public function create(\App\Models\Patient $patient)
     {
         $appointment_id = request('appointment_id');
+        
+        if ($appointment_id) {
+            $appointment = \App\Models\Appointment::find($appointment_id);
+            if ($appointment && $appointment->date > today()->toDateString()) {
+                return back()->with('error', 'Vous ne pouvez pas terminer un rendez-vous et créer un rapport avant la date prévue du rendez-vous.');
+            }
+        }
+
         return view('doctor.reports.create', compact('patient', 'appointment_id'));
     }
 
@@ -46,6 +56,17 @@ class ReportController extends Controller
         ]);
 
         $user = Auth::user();
+
+        // Check date constraint if appointment_id is provided
+        if ($request->appointment_id) {
+            $appointment = \App\Models\Appointment::find($request->appointment_id);
+            if ($appointment && $appointment->date > today()->toDateString()) {
+                return back()->with('error', 'Action non autorisée avant la date du rendez-vous.');
+            }
+        }
+
+        // Generate AI Summary
+        $aiSummary = $this->ai->summarize("Diagnosis: {$request->diagnosis}\nPrescription: {$request->prescription}\nNotes: {$request->notes}");
         
         Report::create([
             'doctor_id' => $user->doctor->id,
@@ -53,6 +74,7 @@ class ReportController extends Controller
             'diagnosis' => $request->diagnosis,
             'prescription' => $request->prescription,
             'notes' => $request->notes,
+            'ai_summary' => $aiSummary,
         ]);
 
         // Mark appointment as completed if ID is provided
